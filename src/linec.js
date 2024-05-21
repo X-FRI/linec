@@ -45,40 +45,40 @@ const tableCars = {
 
 program
     .version('0.1.0')
-    .option('-i, --ignore [path] | List', `ignore path | <example> linec -i './dist'` )
+    .option('-i, --ignore [path] | List', `ignore path | <example> linec -i './dist'`)
     .option('-p, --path [path]', `linec path | <example> linec -p './dist'`)
     .option('-s, --suffix [name] | List', `linec name | <example> linec -s '.js'`)
     .option('-o, --output', 'ouput html | <example> linec -o')
     .parse(process.argv);
 
-if(program.output) {
+if (program.output) {
     TYPE = 'html';
 }
 
-if(program.suffix) {
+if (program.suffix) {
     try {
         const list = program.suffix.split(',');
         suffixList.push(...list);
-    } catch(e) {
+    } catch (e) {
         console.log(logSymbols.error, `linec -s <suffix> must have params'`.red);
         process.exit(0);
     }
 }
 
-if(program.path) {
+if (program.path) {
     ROOTPATH = program.path;
-    if(typeof ROOTPATH === 'boolean') {
+    if (typeof ROOTPATH === 'boolean') {
         console.log(logSymbols.error, 'linec -p <path/file> must have params'.red);
         process.exit(0);
     }
 }
 
-if(program.ignore) {
+if (program.ignore) {
     try {
         const dirList = program.ignore.split(',');
         console.log(dirList)
         filterCustom.push(...dirList);
-    } catch(e) {
+    } catch (e) {
         console.log(logSymbols.error, 'linec -i <dir/file> must have params'.red);
         process.exit(0);
     }
@@ -227,7 +227,7 @@ function outputTbale(totalData) {
         tablesContent
     } = totalData;
     content.push(...tablesContent);
-    bottom.push(['SUM'.cyan, `${totalFiles}`.cyan, `${totalBlank}`.cyan, `${totalComments}`.cyan,`${totalCode}`.cyan]);
+    bottom.push(['SUM'.cyan, `${totalFiles}`.cyan, `${totalBlank}`.cyan, `${totalComments}`.cyan, `${totalCode}`.cyan]);
 
     const {
         totalTime,
@@ -268,7 +268,7 @@ function getFile(dirPath, langInfo) {
         let isFile, isDir;
         try {
             isFile = fs.statSync(currentPath).isFile(),
-            isDir = fs.statSync(currentPath).isDirectory();
+                isDir = fs.statSync(currentPath).isDirectory();
         } catch (e) {
             return;
         }
@@ -367,7 +367,7 @@ function outputHtml(fileData, totalData) {
     Object.keys(fileData).map(item => {
         const languageItem = fileData[item];
         let tr = '';
-        if(item === maxName) {
+        if (item === maxName) {
             tr += `<div class="tr tr-max" style="color: ${languageItem.color}">`;
         } else {
             tr += `<div class="tr" style="color: ${languageItem.color}">`;
@@ -379,7 +379,7 @@ function outputHtml(fileData, totalData) {
 
     const bottom = `<div class="bottom"><div class="col col-2">SUM</div><div class="col col-2">${totalFiles}</div><div class="col col-2">${totalBlank}</div><div class="col col-2">${totalComments}</div><div class="col col-2">${totalCode}</div></div>`;
     const readData = fs.readFileSync(path.join(__dirname, '../src/static/template.html')).toString();
-    const ouputHtml = readData.replace('$',speed + header + body + bottom )
+    const ouputHtml = readData.replace('$', speed + header + body + bottom)
     const outputPath = `${process.cwd()}/linec_output.html`;
     fs.writeFileSync(outputPath, ouputHtml);
     console.log(`导出成功,目录为${outputPath}`);
@@ -404,9 +404,9 @@ function linec(type, cpath) {
     const fileData = getFileData(p);
     const totalData = hanldeTable(fileData);
     let output = null;
-    if(t === 'html') {
+    if (t === 'html') {
         output = outputHtml(fileData, totalData);
-    } else if(t === 'table') {
+    } else if (t === 'table') {
         output = outputTbale(totalData);
     }
     return output;

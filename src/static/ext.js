@@ -290,6 +290,8 @@ module.exports = {
     "r": "R",
     "rkt": "Racket",
     "rktl": "Racket",
+    "res": "Rescript",
+    "resi": "Rescript",
     "scrbl": "Racket",
     "raml": "RAML",
     "pyj": "RapydScript",
